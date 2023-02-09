@@ -58,5 +58,12 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(aluno);
         }
 
+        [HttpPost]
+        public IActionResult PostAluno(Aluno aluno)
+        {
+            return Ok(aluno);
+        }
+
+
     }
 }
