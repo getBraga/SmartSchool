@@ -64,6 +64,12 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(aluno);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult PutAluno(int id, Aluno aluno) 
+        {
+            return Ok(aluno);
+        }
+
 
     }
 }
