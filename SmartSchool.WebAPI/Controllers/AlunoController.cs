@@ -74,6 +74,10 @@ namespace SmartSchool.WebAPI.Controllers
         {
             return Ok(aluno);
         }
-
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAluno(int id)
+        {
+            return Ok("Usuário excluido");
+        }
     }
 }
