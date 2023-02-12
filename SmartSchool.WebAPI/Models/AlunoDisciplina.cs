@@ -6,11 +6,11 @@
 
         public AlunoDisciplina(int alunoID, int disciplinaId)
         {
-            AlunoID = alunoID;
+            AlunoId = AlunoId;
             DisciplinaId = disciplinaId;
         }
 
-        public int AlunoID { get; set; }
+        public int AlunoId { get; set; }
         public Aluno Aluno { get; set; }
         public Disciplina Disciplina { get; set; }
         public int DisciplinaId { get; set; }
