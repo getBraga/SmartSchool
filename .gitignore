@@ -2,3 +2,6 @@ bin
 obj
 .vs/
 .vs
+.gitignore
+SmartSchool.db-wal
+SmartSchool.db-shm
