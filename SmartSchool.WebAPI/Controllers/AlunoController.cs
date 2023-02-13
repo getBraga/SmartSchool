@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SmartSchool.WebAPI.Data;
 using SmartSchool.WebAPI.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,41 +9,22 @@ namespace SmartSchool.WebAPI.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
-        public List<Aluno> Alunos = new List<Aluno>()
+        private readonly DataContext _context;
+
+        public AlunoController(DataContext context)
         {
-            new Aluno()
-            {
-                Id = 1,
-                Nome = "Ysmael",
-                Sobrenome = "Braga",
-                Telefone = "21986142456"
-            },
-             new Aluno()
-            {
-                Id = 2,
-                Nome = "Sara",
-                Sobrenome = "Dias",
-                Telefone = "21986799449"
-            },
-              new Aluno()
-            {
-                Id = 3,
-                Nome = "Braga",
-                Sobrenome = "Do Carmo",
-                Telefone = "21986142456"
-            },
-        };
-        public AlunoController() { }
+            this._context = context;
+        }
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Alunos);
+            return Ok(_context.Alunos);
         }
         [HttpGet("byId/{id}")]
         public IActionResult GetId(int id)
         {
 
-            var aluno = Alunos.FirstOrDefault(a => a.Id == id);
+            var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
             if (aluno == null) return BadRequest("O Aluno não foi encontrado!");
             return Ok(aluno);
 
@@ -51,7 +33,7 @@ namespace SmartSchool.WebAPI.Controllers
         [HttpGet("ByName")]
         public IActionResult GetByName(string nome, string sobrenome)
         {
-            var aluno = Alunos.FirstOrDefault(
+            var aluno = _context.Alunos.FirstOrDefault(
                 a => a.Nome == nome && a.Sobrenome == sobrenome
                 );
             if (aluno == null) return BadRequest("O Aluno não foi encontrado!");
