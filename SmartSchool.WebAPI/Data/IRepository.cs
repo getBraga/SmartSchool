@@ -1,4 +1,6 @@
-﻿namespace SmartSchool.WebAPI.Data
+﻿using SmartSchool.WebAPI.Models;
+
+namespace SmartSchool.WebAPI.Data
 {
     public interface IRepository
     {
@@ -6,6 +8,15 @@
         void Update<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         bool SaveChanges();
+
+        Aluno[] GetAllAlunos(bool includeProfessor);
+        Aluno[] GetAllAlunosByDisciplina(int disciplinaId, bool includeProfessor);
+        Aluno GetAlunoById(int alunoId, bool includeProfessor = false);
+
+        Professor[] GetAllProfessores(bool includeAlunos);
+        Professor[] GetAllProfessoresByDisciplina(int professorId, bool includeAlunos);
+        Professor GetProfessorById(int professorId, bool includeAlunos);
+
     }
 
 }
