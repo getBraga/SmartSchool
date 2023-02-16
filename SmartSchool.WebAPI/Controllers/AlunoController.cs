@@ -17,11 +17,7 @@ namespace SmartSchool.WebAPI.Controllers
             this._context = context;
             this._repo = repo;
         }
-        [HttpGet("pegaResposta")]
-        public IActionResult PegaResposta()
-        {
-            return Ok(_repo.pegarResposta());
-        }
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -50,9 +46,12 @@ namespace SmartSchool.WebAPI.Controllers
         [HttpPost]
         public IActionResult PostAluno(Aluno aluno)
         {
-            _context.Add(aluno);
-            _context.SaveChanges();
-            return Ok(aluno);
+            _repo.Add(aluno);
+            if(_repo.SaveChanges())
+            {
+                return Ok(aluno);
+            }
+            return BadRequest("Aluno não cadastrado!");
         }
 
         [HttpPut("{id}")]
@@ -61,18 +60,26 @@ namespace SmartSchool.WebAPI.Controllers
             var findAluno = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
             if (findAluno == null) return BadRequest("O Aluno não foi encontrado!");
 
-            _context.Update(aluno);
-            _context.SaveChanges();
-            return Ok(aluno);
+            _repo.Update(aluno);
+            if (_repo.SaveChanges())
+            {
+                return Ok(aluno);
+            }
+            return BadRequest("O Aluno não foi encontrado!");
+          
         }
         [HttpPatch("{id}")]
         public IActionResult PatchAluno(int id, Aluno aluno)
         {
             var findAluno = _context.Alunos.AsNoTracking().FirstOrDefault(a => a.Id == id);
             if (findAluno == null) return BadRequest("O Aluno não foi encontrado!");
-            _context.Update(aluno);
-            _context.SaveChanges();
-            return Ok(aluno);
+
+            _repo.Update(aluno);
+            if (_repo.SaveChanges())
+            {
+                return Ok(aluno);
+            }
+            return BadRequest("O Aluno não foi encontrado!");
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteAluno(int id)
@@ -80,9 +87,13 @@ namespace SmartSchool.WebAPI.Controllers
             var aluno = _context.Alunos.FirstOrDefault(a => a.Id == id);
             if (aluno == null) return BadRequest("O Aluno não foi encontrado!");
 
-            _context.Remove(aluno);
-            _context.SaveChanges();
-            return Ok("Usuário excluido");
+            _repo.Delete(aluno);
+            if (_repo.SaveChanges())
+            {
+                return Ok("Usuário excluido");
+            }
+            return BadRequest("Usuário não excluido");
+           
         }
     }
 }
