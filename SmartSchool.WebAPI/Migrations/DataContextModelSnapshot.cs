@@ -286,7 +286,7 @@ namespace SmartSchool.WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Professor");
+                    b.ToTable("Professores");
 
                     b.HasData(
                         new

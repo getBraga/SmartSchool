@@ -10,7 +10,7 @@ using SmartSchool.WebAPI.Data;
 namespace SmartSchool.WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230212042432_init")]
+    [Migration("20230216041249_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -288,7 +288,7 @@ namespace SmartSchool.WebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Professor");
+                    b.ToTable("Professores");
 
                     b.HasData(
                         new
