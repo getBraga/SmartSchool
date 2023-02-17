@@ -4,9 +4,9 @@
     {
         public AlunoDisciplina() { }
 
-        public AlunoDisciplina(int alunoID, int disciplinaId)
+        public AlunoDisciplina(int alunoId, int disciplinaId)
         {
-            AlunoId = AlunoId;
+            AlunoId = alunoId;
             DisciplinaId = disciplinaId;
         }
 
