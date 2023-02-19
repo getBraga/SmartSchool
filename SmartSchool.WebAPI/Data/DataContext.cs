@@ -22,11 +22,11 @@ namespace SmartSchool.WebAPI.Data
                .HasKey(AD => new { AD.AlunoId, AD.CursoId });
             builder.Entity<Professor>()
                 .HasData(new List<Professor>(){
-                    new Professor(1, 1, "Lauro", "Oliveira"),
-                    new Professor(2, 2, "Roberto", "Soares"),
-                    new Professor(3, 3, "Ronaldo", "Marconi"),
-                    new Professor(4, 4, "Rodrigo", "Carvalho"),
-                    new Professor(5, 5, "Alexandre", "Montanha"),
+                    new Professor(1, 1, "Lauro", "Oliveira",DateTime.Parse("05/28/1975")),
+                    new Professor(2, 2, "Roberto", "Soares",DateTime.Parse("05/28/1975")),
+                    new Professor(3, 3, "Ronaldo", "Marconi",DateTime.Parse("05/28/1975")),
+                    new Professor(4, 4, "Rodrigo", "Carvalho",DateTime.Parse("05/28/1975")),
+                    new Professor(5, 5, "Alexandre", "Montanha",DateTime.Parse("05/28/1975")),
                 });
 
             builder.Entity<Curso>()
