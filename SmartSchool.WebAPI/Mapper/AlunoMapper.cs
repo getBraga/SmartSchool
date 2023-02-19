@@ -4,9 +4,9 @@ using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Helpers
 {
-    public class SmartSchoolProfile:Profile
+    public class AlunoMapper:Profile
     {
-        public SmartSchoolProfile()
+        public AlunoMapper()
         {
             CreateMap<Aluno, AlunoDto>()
                 .ForMember(
@@ -17,7 +17,8 @@ namespace SmartSchool.WebAPI.Helpers
                 dest => dest.Idade,
                 opt => opt.MapFrom(idade => idade.DataNascimento.GetCurrentAge())
             );
-
+            CreateMap<AlunoDto, Aluno>();
+            CreateMap<Aluno, AlunoRegistrarDto>().ReverseMap();
         }
     }
 }
