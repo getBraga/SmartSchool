@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -38,6 +39,20 @@ namespace SmartSchool.WebAPI
                 
                 );
             services.AddScoped<IRepository, Repository>();
+            services.AddSwaggerGen(options => 
+            {
+                options.SwaggerDoc(
+                    "SmartSchoolAPI",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "SmartSchool API",
+                        Version = "1.0"
+                    }
+                    );
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                options.IncludeXmlComments(xmlCommentsFullPath);
+            });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         }
@@ -53,6 +68,11 @@ namespace SmartSchool.WebAPI
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseSwagger().UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/SmartSchoolAPI/swagger.json", "SmartSchoolApi");
+                options.RoutePrefix = ""; 
+            });
 
             // app.UseAuthorization();
 
