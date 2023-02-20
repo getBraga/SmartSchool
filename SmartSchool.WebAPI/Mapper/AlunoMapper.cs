@@ -10,7 +10,7 @@ namespace SmartSchool.WebAPI.Helpers
         {
             CreateMap<Aluno, AlunoDto>()
                 .ForMember(
-                dest => dest.Nome,
+                dest => dest.NomeCompleto,
                 opt => opt.MapFrom(nomeSobrenome => $"{nomeSobrenome.Nome} {nomeSobrenome.Sobrenome}")
                 )
                 .ForMember(
@@ -19,6 +19,7 @@ namespace SmartSchool.WebAPI.Helpers
             );
             CreateMap<AlunoDto, Aluno>();
             CreateMap<Aluno, AlunoRegistrarDto>().ReverseMap();
+            CreateMap<Aluno, AlunoAtualizarDtro>().ReverseMap();
         }
     }
 }

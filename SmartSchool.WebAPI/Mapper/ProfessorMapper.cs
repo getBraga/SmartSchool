@@ -3,9 +3,6 @@ using SmartSchool.WebAPI.Dtos;
 using SmartSchool.WebAPI.Helpers;
 using SmartSchool.WebAPI.Models;
 
-using AutoMapper;
-using SmartSchool.WebAPI.Dtos;
-using SmartSchool.WebAPI.Models;
 
 namespace SmartSchool.WebAPI.Mapper
 {
@@ -15,7 +12,7 @@ namespace SmartSchool.WebAPI.Mapper
         {
             CreateMap<Professor, ProfessorDto>()
            .ForMember(
-               dest => dest.Nome,
+               dest => dest.NomeCompleto,
                opt => opt.MapFrom(nomeSobrenome => $"{nomeSobrenome.Nome} {nomeSobrenome.Sobrenome}")
            )
            .ForMember(
@@ -26,6 +23,7 @@ namespace SmartSchool.WebAPI.Mapper
 
             CreateMap<ProfessorDto, Professor>();
             CreateMap<Professor, ProfessorRegistrarDto>().ReverseMap();
+            CreateMap<Professor, ProfessorAtualizarDto>().ReverseMap();
         }
     }
 }
