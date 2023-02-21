@@ -12,8 +12,9 @@ namespace SmartSchool.WebAPI.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [Route("api/[controller]")]
-    [ApiController] 
+    [ApiController]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProfessorController : ControllerBase
     {
         private readonly IRepository _repo;

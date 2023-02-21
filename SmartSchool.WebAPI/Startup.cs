@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ namespace SmartSchool.WebAPI
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "ASP0000:Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'", Justification = "<Pending>")]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(
@@ -34,21 +36,45 @@ namespace SmartSchool.WebAPI
            );
 
             services.AddControllers().AddNewtonsoftJson(
-                opt => opt.SerializerSettings.ReferenceLoopHandling = 
+                opt => opt.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                
+
                 );
             services.AddScoped<IRepository, Repository>();
-            services.AddSwaggerGen(options => 
+            services.AddVersionedApiExplorer(options =>
             {
-                options.SwaggerDoc(
-                    "SmartSchoolAPI",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            }).AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            });
+
+            var apiProviderDescription = services.BuildServiceProvider()
+                                                  .GetService<IApiVersionDescriptionProvider>();
+            services.AddSwaggerGen(options =>
+            {
+                if (apiProviderDescription != null)
+                {
+                    foreach (var description in apiProviderDescription.ApiVersionDescriptions)
                     {
-                        Title = "SmartSchool API",
-                        Version = "1.0"
+                        options.SwaggerDoc(
+
+                   description.GroupName,
+                   new Microsoft.OpenApi.Models.OpenApiInfo()
+                   {
+                       Title = "SmartSchool API",
+                       Version = description.ApiVersion.ToString(),
+                       Description = "WebApi do Smartschool"
+                   }
+                   );
                     }
-                    );
+                }
+            });
+            services.AddSwaggerGen(options =>
+            {
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 options.IncludeXmlComments(xmlCommentsFullPath);
@@ -58,7 +84,9 @@ namespace SmartSchool.WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+                              IWebHostEnvironment env, 
+                              IApiVersionDescriptionProvider apiProviderDescription)
         {
             if (env.IsDevelopment())
             {
@@ -70,8 +98,14 @@ namespace SmartSchool.WebAPI
             app.UseRouting();
             app.UseSwagger().UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/SmartSchoolAPI/swagger.json", "SmartSchoolApi");
-                options.RoutePrefix = ""; 
+                foreach(var description in apiProviderDescription.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint(
+                        $"/swagger/{description.GroupName}/swagger.json", 
+                        description.GroupName.ToUpperInvariant());
+
+                }
+                options.RoutePrefix = "";
             });
 
             // app.UseAuthorization();
