@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WebAPI.Data;
 using SmartSchool.WebAPI.Dtos;
+using SmartSchool.WebAPI.Helpers;
 using SmartSchool.WebAPI.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,9 +37,9 @@ namespace SmartSchool.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]PageParams pageParams)
         {
-            var alunos = await _repo.GetAllAlunosAsync(true);
+            var alunos = await _repo.GetAllAlunosAsync(pageParams , true);
             var alunoDto =  _mapper.Map<IEnumerable<AlunoDto>>(alunos);
             return Ok(alunoDto);
         }
