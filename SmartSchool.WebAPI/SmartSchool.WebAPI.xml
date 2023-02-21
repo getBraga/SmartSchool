@@ -8,6 +8,7 @@
             <summary>
             
             </summary>
+            
         </member>
         <member name="M:SmartSchool.WebAPI.Controllers.AlunoController.#ctor(SmartSchool.WebAPI.Data.IRepository,AutoMapper.IMapper)">
             <summary>
@@ -16,7 +17,7 @@
             <param name="repo"></param>
             <param name="mapper"></param>
         </member>
-        <member name="M:SmartSchool.WebAPI.Controllers.AlunoController.Get">
+        <member name="M:SmartSchool.WebAPI.Controllers.AlunoController.Get(SmartSchool.WebAPI.Helpers.PageParams)">
             <summary>
             Metodo responsável por retornar todos os alunos
             </summary>
