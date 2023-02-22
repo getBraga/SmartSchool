@@ -15,7 +15,7 @@ namespace SmartSchool.WebAPI.Data
         Aluno[] GetAllAlunosByDisciplina(int disciplinaId, bool includeProfessor);
         Aluno GetAlunoById(int alunoId, bool includeProfessor = false);
 
-        Professor[] GetAllProfessores(bool includeAlunos);
+        Task<PageList<Professor>> GetAllProfessoresAsync(PageParams pageParams, bool includeAlunos);
         Professor[] GetAllProfessoresByDisciplina(int professorId, bool includeAlunos);
         Professor GetProfessorById(int professorId, bool includeAlunos);
 

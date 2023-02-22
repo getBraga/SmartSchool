@@ -94,7 +94,7 @@ namespace SmartSchool.WebAPI.Data
             return query.FirstOrDefault();
         }
 
-        public Professor[] GetAllProfessores(bool includeAlunos)
+        public async Task<PageList<Professor>> GetAllProfessoresAsync(PageParams pageParams, bool includeAlunos)
         {
             IQueryable<Professor> query = _context.Professores;
             if (includeAlunos)
@@ -104,7 +104,8 @@ namespace SmartSchool.WebAPI.Data
                     .ThenInclude(a => a.Aluno);
             }
             query = query.AsNoTracking().OrderBy(p => p.Id);
-            return query.ToArray();
+            return await PageList<Professor>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
+
         }
 
         public Professor[] GetAllProfessoresByDisciplina(int disciplinaId, bool includeAluno)
