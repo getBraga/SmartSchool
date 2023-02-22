@@ -72,7 +72,7 @@
             <param name="repo"></param>
             <param name="mapper"></param>
         </member>
-        <member name="M:SmartSchool.WebAPI.Controllers.ProfessorController.Get">
+        <member name="M:SmartSchool.WebAPI.Controllers.ProfessorController.Get(SmartSchool.WebAPI.Helpers.PageParams)">
             <summary>
             Metodo responsável para retornar todos os professores
             </summary>

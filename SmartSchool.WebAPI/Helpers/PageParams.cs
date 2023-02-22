@@ -10,5 +10,13 @@
             get { return pageSize; } 
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; } 
         }
+        public int Matricula { get; set; }
+
+        public int Registro { get; set; }
+        public string? Nome { get; set; }
+     
+        public string? Sobrenome { get; set; }
+        public int? Ativo { get; set; } = null;
+
     }
 }
